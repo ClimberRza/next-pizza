@@ -7,7 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:push": "prisma db push"
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio",
+    "prisma:seed": "prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
@@ -20,16 +25,22 @@
     "@radix-ui/react-select": "^2.1.4",
     "@radix-ui/react-slider": "^1.2.2",
     "@radix-ui/react-slot": "^1.1.1",
+    "@types/bcrypt": "^5.0.2",
+    "@types/qs": "^6.9.17",
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.469.0",
     "next": "14.2.16",
     "prisma": "^6.1.0",
+    "qs": "^6.13.1",
     "react": "^18",
     "react-dom": "^18",
     "react-use": "^17.6.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
+    "ts-node": "^10.9.2",
     "vaul": "^1.1.2",
     "ws": "^8.18.0",
     "zustand": "^5.0.2"

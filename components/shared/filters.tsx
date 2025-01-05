@@ -1,160 +1,93 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import React, { FC } from 'react'
 import { Title } from './title'
-import { CheckboxFiltersGroup, FilterCheckbox, RangeSlider } from '.'
+import { CheckboxFiltersGroup, RangeSlider } from '.'
 import { Input } from '../ui'
+import { useIngredients, useFilters, useQueryFilters } from '@/hooks'
 
 interface Props {
   className?: string
 }
 
 export const Filters: FC<Props> = ({ className }) => {
+  const {ingredients, isLoading} = useIngredients()
+  const filters = useFilters()
+  
+  useQueryFilters(filters)
+
+  const ingredientItems = ingredients.map((item) => ({ value: String(item.id), text: item.name }));
+  
   return (
     <div className={cn('mt-3', className)}>
-      <Title text='Фильтрация' size='sm' className='mb-4 font-bold' />
-      {/*Верхние чекбоксы*/ }
-      <div className='flex flex-col gap-4'>
-        <FilterCheckbox text='Можно собирать' value='1' />
-        <FilterCheckbox text='Новинки' value='2' />
-      </div>
+      <Title text='Фильтрация' size='sm' className='mb-3 font-bold' />
+      <CheckboxFiltersGroup
+        title="Тип теста"
+        forWhat="pizzaTypes"
+        className="mb-5"
+        onClickCheckbox={filters.toggleTypes}
+        selectedValues={filters.selectedTypes}
+        items={[
+          { text: 'Тонкое', value: '1' },
+          { text: 'Традиционное', value: '2' },
+        ]}
+      />
+      <CheckboxFiltersGroup 
+        title='Размеры'
+        className='mb-5'
+        forWhat='sizes'
+        items={[
+          { text: '20 см', value: '20' },
+          { text: '30 см', value: '30' },
+          { text: '40 см', value: '40' },
+        ]}
+        onClickCheckbox={filters.toggleSizes}
+        selectedValues={filters.selectedSizes}
+      />
       {/*Фильтр цен*/ }
       <div className='mt-5 border-y border-y-neutral-100'>
         <p className='font-bold mb-3 mt-2'>Цена от и до:</p>
         <div className='flex gap-3 mb-5'>
-          <Input type='number' placeholder='0' min={0} max={1000} defaultValue={0} />
-          <Input type='number' placeholder='1000' min={100} max={1000} />
+          <Input 
+            type='number' 
+            placeholder='0' 
+            min={0} 
+            max={3000} 
+            value={String(filters.selectedPrices.priceFrom || '0')}
+            onChange={(e) => filters.updatePrice('priceFrom', Number(e.target.value))}
+          />
+          <Input 
+            type='number' 
+            placeholder='3000' 
+            min={100} 
+            max={3000} 
+            value={String(filters.selectedPrices.priceTo || '3000')}
+            onChange={(e) => filters.updatePrice('priceTo', Number(e.target.value))}
+          />
         </div>
       </div>
-      <RangeSlider min={0} max={5000} step={10} value={[0, 5000]} />
+      <RangeSlider 
+        min={0} 
+        max={3000} 
+        step={10} 
+        value={[
+          filters.selectedPrices.priceFrom || 0,
+          filters.selectedPrices.priceTo || 3000
+        ]} 
+        onValueChange={([priceFrom, priceTo]) => filters.setSelectedPrices({priceFrom, priceTo})}
+      />
       {/*Нижние чекбоксы (ингредиенты)*/ }
       <CheckboxFiltersGroup 
+        isLoading={isLoading}
         title='Ингредиенты'
         className='mt-5'
         limit={6}
-        defaultItems={[
-          {
-            text: 'Сырный соус',
-            value: '1'
-          },
-          {
-            text: 'Моцарелла',
-            value: '2'
-          },
-          {
-            text: 'Чеснок',
-            value: '3'
-          },
-          {
-            text: 'Солёные огурчики',
-            value: '4'
-          },
-          {
-            text: 'Красный лук',
-            value: '5'
-          },
-          {
-            text: 'Томаты',
-            value: '6'
-          },
-        ]}
-        items={[
-          {
-            text: 'Сырный соус',
-            value: '1'
-          },
-          {
-            text: 'Моцарелла',
-            value: '2'
-          },
-          {
-            text: 'Чеснок',
-            value: '3'
-          },
-          {
-            text: 'Солёные огурчики',
-            value: '4'
-          },
-          {
-            text: 'Красный лук',
-            value: '5'
-          },
-          {
-            text: 'Томаты',
-            value: '6'
-          },
-          {
-            text: 'Сырный соус',
-            value: '1'
-          },
-          {
-            text: 'Моцарелла',
-            value: '2'
-          },
-          {
-            text: 'Чеснок',
-            value: '3'
-          },
-          {
-            text: 'Солёные огурчики',
-            value: '4'
-          },
-          {
-            text: 'Красный лук',
-            value: '5'
-          },
-          {
-            text: 'Томаты',
-            value: '6'
-          },
-          {
-            text: 'Сырный соус',
-            value: '1'
-          },
-          {
-            text: 'Моцарелла',
-            value: '2'
-          },
-          {
-            text: 'Чеснок',
-            value: '3'
-          },
-          {
-            text: 'Солёные огурчики',
-            value: '4'
-          },
-          {
-            text: 'Красный лук',
-            value: '5'
-          },
-          {
-            text: 'Томаты',
-            value: '6'
-          },
-          {
-            text: 'Сырный соус',
-            value: '1'
-          },
-          {
-            text: 'Моцарелла',
-            value: '2'
-          },
-          {
-            text: 'Чеснок',
-            value: '3'
-          },
-          {
-            text: 'Солёные огурчики',
-            value: '4'
-          },
-          {
-            text: 'Красный лук',
-            value: '5'
-          },
-          {
-            text: 'Томаты',
-            value: '6'
-          },
-        ]}
+        forWhat='ingredients'
+        defaultItems={ingredientItems.slice(0, 6)}
+        items={ingredientItems}
+        onClickCheckbox={filters.toggleIngredient}
+        selectedValues={filters.selectedIngredients}
       />
     </div>
   )
