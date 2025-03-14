@@ -1,4 +1,4 @@
-import { Container, GroupVariants, ProductImage, Title } from '@/components/shared'
+import { Container, GroupVariants,  Title } from '@/shared/components/shared'
 import { prisma } from '@/prisma/prisma-client'
 import { notFound } from 'next/navigation'
 import React from 'react'
@@ -10,6 +10,7 @@ const ProductPage = async ({params: {id}}: { params: {id: string} }) => {
     where: {id: Number(id)}
   })
 
+
   if (!product) {
     return notFound()
   }
@@ -17,7 +18,8 @@ const ProductPage = async ({params: {id}}: { params: {id: string} }) => {
   return (
     <Container className='flex flex-col my-10'>
       <div className='flex flex-1'>
-        <ProductImage imageUrl={product.imageUrl} size={40} className=''/>
+        {/* <ProductImage imageUrl={product.imageUrl} size={40} className=''/> */}
+        <img src={product.imageUrl} className='w-[250px] h-[250px]' alt='image'/>
         <div className='w-[490px] bg-[#f7f6f5] p-7'>
           <Title text={product.name} size='md' className='font-extrabold mb-1'/>
 
@@ -25,7 +27,7 @@ const ProductPage = async ({params: {id}}: { params: {id: string} }) => {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo expedita eligendi quasi assumenda laborum vel
           </p>
           <GroupVariants
-            selectedValue='2'
+            value='2'
             items={[
               {
                 name: 'Маленькая',

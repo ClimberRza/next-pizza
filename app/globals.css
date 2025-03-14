@@ -66,6 +66,10 @@ html {
   background: #dbdadd;
 }
 
+/* body:has(div[data-state="open"]) {
+  overflow: hidden;
+} */
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
